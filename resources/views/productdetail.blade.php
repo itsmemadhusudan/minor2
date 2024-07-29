@@ -107,11 +107,12 @@
             </div>
             <div class="col-md-6 form-container">
                 <h2>Details</h2>
-                <form action="{{ route('submit_form') }}" method="post">
+                <form action="{{ route('store_cart') }}" method="post">
                     @csrf
                     <label for="price">Price: {{ $product->price }}</label> <br/> <br/>
                     <label for="description">Description: {{ $product->description }}</label> <br/> <br/>
                     <label for="size">Size:</label>
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <span id="selected-size"></span> <br/> <br/>
                     <div>
                         <input class="form-check-input me-2" type="radio" name="size" value="S" id="sizeS" onchange="updateSize()" />
@@ -128,10 +129,14 @@
                         <label class="form-check-label" for="sizeXXXL">XXXL</label>
                     </div>
                     <br/>
+                    <label for="qty">Quantity:</label>
+                    <input type="number" name="quantity" id="qty">
 
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Buy Now</button>
-                        <button type="button" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Add to Cart</button>
+
+
+                    <div class="d-flex justify-content-between mt-4">
+                        {{-- <button type="button" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Buy Now</button> --}}
+                        <button type="submit" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Add to Cart</button>
                     </div>
                 </form>
 

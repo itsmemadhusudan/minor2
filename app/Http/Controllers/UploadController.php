@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Upload;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,22 @@ class UploadController extends Controller
         $product = Upload::find(decrypt($product_id));
 
         return view('productdetail',compact('product'));
+    }
+
+    public function storeCart(Request $request){
+
+        // dd($request->all());
+
+        Cart::create(
+            [
+                'user_id' => user()->id,
+                'product_id' => $request->product_id,
+                'quantity' => $request->quantity,
+                'size' => $request->size,
+            ]
+        );
+
+        dd("create");
     }
 
 

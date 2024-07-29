@@ -87,7 +87,7 @@
                     </li>
                     @if(Auth::check() && (Auth::user()->role == 'admin' || Auth::user()->role == 'designer'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('uploads.index') }}">Upload</a>
+                        <a class="nav-link" href="#">Upload</a>
                     </li>
                 @endif
                     <!-- Add other menu items as needed -->

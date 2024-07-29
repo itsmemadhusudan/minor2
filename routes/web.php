@@ -16,6 +16,7 @@ Route::get('/', [UploadController::class, 'index'])->name('index');
 Route::get('/upload', [UploadController::class, 'addImage'])->name('add_image');
 Route::post('/upload', [UploadController::class, 'store'])->name('save_image');
 Route::get('/product/{product_id}', [UploadController::class, 'viewProduct'])->name('view_product');
+Route::post('/product/store-cart', [UploadController::class, 'storeCart'])->name('store_cart');
 Route::get('/upload-data', [UploadController::class, 'index'])->name('upload-data');
 
 //designer routes
