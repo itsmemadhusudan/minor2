@@ -10,22 +10,17 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\EsewaController;
 
 // Home Route
-// Route::get('/', function () {
-//     return view('index');
-// })->name('index');
-
 Route::get('/', [UploadController::class, 'index'])->name('index');
 
+// Upload Routes
 Route::get('/upload', [UploadController::class, 'addImage'])->name('add_image');
 Route::post('/upload', [UploadController::class, 'store'])->name('save_image');
 Route::get('/product/{product_id}', [UploadController::class, 'viewProduct'])->name('view_product');
-
-// Route for UploadController
-// Route::resource('uploads', UploadController::class)->only(['index', 'create', 'store']);
-
 Route::get('/upload-data', [UploadController::class, 'index'])->name('upload-data');
 
-// Route for the About Us page
+//designer routes
+Route::get('/designer', [DesignerController::class, 'index'])->name('designer');
+// About Us Route
 Route::get('/aboutus', [DesignerController::class, 'aboutUs'])->name('aboutus');
 
 // Registration Routes
@@ -42,8 +37,10 @@ Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
 // Search Route
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
+// Product Detail Route
+Route::post('/submit_form', [ProductDetailController::class, 'submitForm'])->name('submit_form');
+
 // Public Routes
-Route::get('/designer', [DesignerController::class, 'index'])->name('designer');
 Route::get('/cultural', function () {
     return view('cultural');
 })->name('cultural');
@@ -61,14 +58,27 @@ Route::get('/western', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [DesignerController::class, 'profile'])->name('profile');
     Route::post('/profile', [DesignerController::class, 'updateProfile'])->name('profile.update');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart'); // Ensuring Cart is accessible for authenticated users
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::get('/designer', [DesignerController::class, 'showDesignerPage'])->name('designer');
 });
 
-// Routes for Product Details
+// Product Detail Route
 Route::get('/productdetail/{id}', [ProductDetailController::class, 'show'])->name('productdetail');
 
-// Routes for EsewaController
+// Esewa Payment Routes
 Route::get('/esewa/create', [EsewaController::class, 'create'])->name('esewa.create');
 Route::post('/esewa/store', [EsewaController::class, 'store'])->name('esewa.store');
 Route::get('/esewa/success', [EsewaController::class, 'success'])->name('payment.success');
 Route::get('/esewa/failure', [EsewaController::class, 'failure'])->name('payment.failure');
+
+// Cart routes
+Route::middleware('auth')->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+});
+Route::get('/admin-profile', function () {
+    return view('adminprofile'); // Ensure this matches your view filename
+})->name('admin.profile');

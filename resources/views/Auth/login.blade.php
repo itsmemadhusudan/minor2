@@ -78,7 +78,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <img src="{{ asset('assets/image/logo.png') }}" class="d-block w-100" alt="Yfasma">
+            <a class="nav-link active" aria-current="page" href="{{ route('index') }}">
+                <img src="{{ asset('assets/image/logo1.png') }}" alt="Yfasma"
+                    style="height: 40px; padding-top: 0; margin-top: 0;">
+            </a>
           {{-- </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.html">Home </a>

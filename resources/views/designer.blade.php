@@ -180,19 +180,7 @@
                             </select>
                         </div>
                         <hr>
-                        <div class="mb-3">
-                            <label for="women" class="form-label">
-                                <a href="#" class="text-decoration-none filter-category" data-category="women">Women</a>
-                            </label>
-                        </div>
-                        <hr>
-                        <div class="mb-3">
-                            <label for="men" class="form-label">
-                                <a href="#" class="text-decoration-none filter-category" data-category="men">Men</a>
-                            </label>
-                        </div>
-                        <hr>
-                        <div class="mb-3">
+                            <div class="mb-3">
                             <label for="western" class="form-label">
                                 <a href="#" class="text-decoration-none filter-category" data-category="western">Western</a>
                             </label>
@@ -210,16 +198,19 @@
             <div class="col-lg-9">
                 <div class="row row-cols-1 row-cols-md-4 g-4">
                     <div class="col-lg-3 col-md-6 product-card" data-price="5000" data-category="men" data-designer="manish malhotra">
-                        <div class="card h-100 custom-card">
-                            <a href="popup.html">
-                                <img src="men3.png" class="card-img-top" alt="...">
-                            </a>
-                            <div class="card-bottom-overlay">
-                                <p class="card-text">Manish Malhotra<br/>Lehenga</p>
+                        @foreach ($uploads as $item)
+                        <div class="col-lg-3 col-md-6 product-card" data-price="5000" data-category="men" data-designer="manish malhotra">
+                            <div class="card h-100 custom-card">
+                                <a href="{{ route('view_product', encrypt($item->id)) }}">
+                                    <img src="{{ asset('storage/' . $item->profile_picture) }}" class="card-img-top" alt="...">
+                                </a>
+                                <div class="card-bottom-overlay">
+                                    <p class="card-text">{{ $item->designer_name }}<br/>{{ $item->description }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 product-card" data-price="6000" data-category="cultural" data-designer="manish malhotra">
+                    @endforeach
+                    {{-- <div class="col-lg-3 col-md-6 product-card" data-price="6000" data-category="cultural" data-designer="manish malhotra">
                         <div class="card h-100 custom-card">
                             <a href="popup.html">
                                 <img src="cultural2.png" class="card-img-top" alt="...">
@@ -228,8 +219,8 @@
                                 <p class="card-text">Manish Malhotra<br/>Lehenga</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 product-card" data-price="7000" data-category="western" data-designer="sabyasachi">
+                    </div> --}}
+                    {{-- <div class="col-lg-3 col-md-6 product-card" data-price="7000" data-category="western" data-designer="sabyasachi">
                         <div class="card h-100 custom-card">
                             <a href="popup.html">
                                 <img src="western3.png" class="card-img-top" alt="...">
@@ -238,8 +229,8 @@
                                 <p class="card-text">Sabyasachi<br/>Lehenga</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 product-card" data-price="8000" data-category="women" data-designer="rohit bal">
+                    </div> --}}
+                    {{-- <div class="col-lg-3 col-md-6 product-card" data-price="8000" data-category="women" data-designer="rohit bal">
                         <div class="card h-100 custom-card">
                             <a href="popup.html">
                                 <img src="women1.png" class="card-img-top" alt="...">
@@ -248,7 +239,7 @@
                                 <p class="card-text">Rohit Bal<br/>Lehenga</p>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- Add more product cards as needed -->
                 </div>
             </div>

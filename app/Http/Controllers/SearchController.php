@@ -9,11 +9,9 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $query = $request->input('searchField');
+        $query = $request->input('query');
+        $items = Item::where('name', 'LIKE', "%$query%")->get();
 
-        // Simple search logic - you can use more advanced algorithms as needed
-        $items = Item::where('name', 'LIKE', "%{$query}%")->get();
-
-        return view('search_results', ['items' => $items]);
+        return view('search.results', compact('items'));
     }
 }

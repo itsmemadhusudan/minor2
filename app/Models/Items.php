@@ -1,11 +1,17 @@
 <?php
-//app/Models/Item.php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use App\Models\Item;
 
-class Item extends Model
+class SearchController extends Controller
 {
-    protected $fillable = ['name', 'description', 'image_path'];
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $items = Item::where('name', 'LIKE', "%$query%")->get();
+
+        return view('search.results', compact('items'));
+    }
 }

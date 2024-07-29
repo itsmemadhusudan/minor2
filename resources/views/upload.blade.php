@@ -82,37 +82,62 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Yfasma</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <a class="nav-link active" aria-current="page" href="{{ route('index') }}">
+                <img src="{{ asset('assets/image/logo1.png') }}" alt="Yfasma"
+                    style="height: 40px; padding-top: 0; margin-top: 0;">
+            </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        <a class="nav-link active" href="{{ route('index') }}" style="padding-bottom:0">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="designer.html">Designer</a>
+                        <a class="nav-link active" href="{{ route('designer') }}" style="padding-bottom:0">Designer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="about.html">About</a>
+                        <a class="nav-link active" href="{{ route('aboutus') }}" style="padding-bottom:0">About</a>
                     </li>
+                    @if (Auth::check() && (Auth::user()->role == 'admin' || Auth::user()->role == 'designer'))
+                        <li class="nav-item">
+                            {{-- <a class="nav-link active" href="{{ route('uploads.create') }}" >Upload</a> --}}
+                            <a class="nav-link active" href="{{ route('add_image') }}">Upload</a>
+                        </li>
+                    @endif
+                    <!-- Other menu items -->
                 </ul>
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="{{ route('search') }}" method="GET">
                     <div id="the-basics">
                         <div class="input-group">
-                            <input name="searchField" id="searchField" type="search" class="form-control form-control-dark" style="width: 426px;">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                            <input name="searchField" id="searchField" type="search"
+                                class="form-control form-control-dark" style="width: 426px;">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
                         </div>
                     </div>
                 </form>
-                <button type="button" class="logout">Logout</button>
+                <a href="{{ route('cart') }}" class="me-2">
+                    <img src="{{ asset('assets/image/cart.png') }}" alt="Cart"
+                        style="height: 25px; padding-top: 0; margin-top: 0;">
+                </a>
+                @guest
+                    <button class="signin" type="button">
+                        <a href="{{ route('login.form') }}" style="text-decoration: none; color: white;">Login</a>
+                    </button>
+                @else
+                    <button class="signin" type="button">
+                        <a href="{{ route('logout') }}" style="text-decoration: none; color: white;">Logout</a>
+                    </button>
+                @endguest
             </div>
         </div>
-    </nav>
-    <div class="container center-content my-5">
+    </nav>    <div class="container center-content my-5">
         <div class="row bg-light shadow rounded p-4" style="max-width: 1150px; align-items: center;">
             <div class="col-md-6 image-container" style="width: 50%; height: 650px;">
                 <img src="{{ asset('assets/image/yfasmaloginfinal.png') }}" alt="Image" style="width: 100%; height: 100%;">
@@ -223,6 +248,7 @@
             </div>
         </footer>
     </div>
+
     <script>
         document.querySelectorAll('.dropdown-item').forEach(function(item) {
     item.addEventListener('click', function(event) {

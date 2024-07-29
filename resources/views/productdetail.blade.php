@@ -60,7 +60,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="">Yfasma</a>
+            <a class="nav-link active" aria-current="page" href="{{ route('index') }}">
+                <img src="{{ asset('assets/image/logo1.png') }}" alt="Yfasma"
+                    style="height: 40px; padding-top: 0; margin-top: 0;">
+            </a>
             {{-- {{ route('index') }} --}}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -71,7 +74,7 @@
                         <a class="nav-link active" aria-current="page" href="{{ route('index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('designer') }}">Designer</a>
+                        <a class="nav-link active" href="{{ route('designer') }}" style="padding-bottom:0">Designer</a>
                     </li>
                     @if(Auth::check() && (Auth::user()->role == 'admin' || Auth::user()->role == 'designer'))
                     <li class="nav-item">
@@ -104,36 +107,34 @@
             </div>
             <div class="col-md-6 form-container">
                 <h2>Details</h2>
-                <form action="submit_form.php" method="post">
-                    <label for="price">Price:</label> <br/> <br/>
-                    <label for="dressname">Dress Name:</label> <br/> <br/>
-                    <label for="size">Size:</label> <br/> <br/>
+                <form action="{{ route('submit_form') }}" method="post">
+                    @csrf
+                    <label for="price">Price: {{ $product->price }}</label> <br/> <br/>
+                    <label for="description">Description: {{ $product->description }}</label> <br/> <br/>
+                    <label for="size">Size:</label>
+                    <span id="selected-size"></span> <br/> <br/>
                     <div>
-                        <input class="form-check-input me-2" type="checkbox" value="S" id="sizeS" />
+                        <input class="form-check-input me-2" type="radio" name="size" value="S" id="sizeS" onchange="updateSize()" />
                         <label class="form-check-label" for="sizeS">S</label>
-                        <input class="form-check-input me-2" type="checkbox" value="M" id="sizeM" />
+                        <input class="form-check-input me-2" type="radio" name="size" value="M" id="sizeM" onchange="updateSize()" />
                         <label class="form-check-label" for="sizeM">M</label>
-                        <input class="form-check-input me-2" type="checkbox" value="L" id="sizeL" />
+                        <input class="form-check-input me-2" type="radio" name="size" value="L" id="sizeL" onchange="updateSize()" />
                         <label class="form-check-label" for="sizeL">L</label>
-                        <input class="form-check-input me-2" type="checkbox" value="XL" id="sizeXL" />
+                        <input class="form-check-input me-2" type="radio" name="size" value="XL" id="sizeXL" onchange="updateSize()" />
                         <label class="form-check-label" for="sizeXL">XL</label>
-                        <input class="form-check-input me-2" type="checkbox" value="XXL" id="sizeXXL" />
+                        <input class="form-check-input me-2" type="radio" name="size" value="XXL" id="sizeXXL" onchange="updateSize()" />
                         <label class="form-check-label" for="sizeXXL">XXL</label>
-                        <input class="form-check-input me-2" type="checkbox" value="XXXL" id="sizeXXXL" />
+                        <input class="form-check-input me-2" type="radio" name="size" value="XXXL" id="sizeXXXL" onchange="updateSize()" />
                         <label class="form-check-label" for="sizeXXXL">XXXL</label>
                     </div>
                     <br/>
 
-
-                    <label for="deliverytime">Delivery Time:</label> <br/> <br/>
-                    <label for="description">Description:</label> <br/> <br/>
-                    <button type="button" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Buy Now</button>
-
-
-
-                    <button type="button" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Add to Cart</button>
-
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Buy Now</button>
+                        <button type="button" class="btn btn-primary btn-lg" style="background-color: black; border-radius: 5px;">Add to Cart</button>
+                    </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -183,5 +184,11 @@
     </footer>
 
     </div>
+    <script>
+        function updateSize() {
+            const selectedSize = document.querySelector('.form-check-input:checked').value;
+            document.getElementById('selected-size').innerText = selectedSize;
+        }
+        </script>
 </body>
 </html>
