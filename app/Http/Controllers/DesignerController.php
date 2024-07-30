@@ -13,9 +13,23 @@ class DesignerController extends Controller
         return view('aboutus');
     }
 
+    public function culturalProduct(){
+        $uploads = Upload::where('category','Cultural')->get();
+
+        return view('cultural',compact('uploads'));
+    }
+
+    public function westernProduct(){
+        $uploads = Upload::where('category','Western')->get();
+
+        return view('western',compact('uploads'));
+    }
+
     public function showDesignerPage()
     {
-        return view('designer');
+        $uploads = Upload::all();
+
+        return view('designer',compact('uploads'));
     }
 
     public function profile()

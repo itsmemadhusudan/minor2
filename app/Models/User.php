@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -43,6 +42,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Optional: Define relationships, accessors, mutators, etc. below if needed.
+    /**
+     * Get the user details associated with the user.
+     */
+    public function userDetails()
+    {
+        return $this->hasOne(UserDetail::class);
+    }
 
+    // Optional: Define additional relationships, accessors, mutators, etc. below if needed.
 }

@@ -233,8 +233,7 @@
                 <th scope="row">${index + 1}</th>
                 <td>${user.fullName}</td>
                 <td>${user.email}</td>
-                <td>${user.contact}</td>
-                <td>${user.address}</td>
+
                 <td>
                   <button type="button" class="btn btn-primary btn-sm" onclick="editUser(${index + 1})">Edit</button>
                   <button type="button" class="btn btn-danger btn-sm" onclick="deleteUser(${index + 1})">Delete</button>

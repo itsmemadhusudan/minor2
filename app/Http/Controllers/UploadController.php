@@ -66,7 +66,7 @@ class UploadController extends Controller
             ]
         );
 
-        dd("create");
+       return redirect()->route('cart');
     }
 
 

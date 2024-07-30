@@ -4,7 +4,7 @@
     <div class="container">
         <h1>About Us</h1>
         <p>Welcome to our Fashion Store! We offer a diverse range of clothing options to suit your unique style. Whether
-            you're looking for traditional attire, western outfits, men's collection, or women's collection, we have
+            you're looking for traditional attire, western outfits, we have
             something for everyone. Our goal is to provide high-quality fashion that makes you feel confident and stylish.
         </p>
         <h2 class="section-title">Clothing Categories</h2>
@@ -19,7 +19,7 @@
                 <p>Discover our western clothing range that includes trendy and fashionable pieces for a modern look. Ideal
                     for casual outings and formal events.</p>
             </div>
-            <div class="category">
+            {{-- <div class="category">
                 <h3>Men's Collection</h3>
                 <p>Our men's collection features a variety of styles, from classic to contemporary, ensuring you find the
                     perfect outfit for any occasion.</p>
@@ -28,7 +28,7 @@
                 <h3>Women's Collection</h3>
                 <p>Browse through our women's collection, offering elegant and chic options for every event. Find your
                     perfect dress, top, or accessory.</p>
-            </div>
+            </div> --}}
         </div>
         <h2 class="section-title">Our Designers</h2>
         <div class="designers">

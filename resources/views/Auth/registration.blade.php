@@ -68,18 +68,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><img src="{{ asset('assets/image/logo.png') }}" alt="Yfasma"></a>
+            <a class="navbar-brand" href="index.html"><img src="{{ asset('assets/image/logo1.png') }}" alt="Yfasma"
+                style="height: 40px; padding-top: 0; margin-top: 0;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="designer.html">Designer</a>
-                    </li>
+                    </li> --}}
                     <!-- <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="women.html">Women</a>
                     </li>
@@ -92,7 +93,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="western.html">Western</a>
                     </li> -->
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="about.html">About</a>
                     </li>
                 </ul>
@@ -106,7 +107,7 @@
                 </form>
                 <button type="button" class="logout">Logout</button>
             </div>
-        </div>
+        </div> --}}
     </nav>
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="container my-5 bg-light shadow rounded p-4">

@@ -80,51 +80,22 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ route('index') }}">
                 <img src="{{ asset('assets/image/logo1.png') }}" alt="Yfasma"
-                    style="height: 40px; padding-top: 0; margin-top: 0;">
+                style="height: 40px; padding-top: 0; margin-top: 0;">
             </a>
-          {{-- </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html">Home </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="designer.html">Designer</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="women.html">Women</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="men.html">Men</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="cultural.html">Cultural</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="western.html">Western</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="aboutus.html">About</a>
-          </li> --}}
         </ul>
-        {{-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <div id="the-basics">
-            <div class="input-group">
-              <input name="searchField" id="searchField" type="search" class="form-control form-control-dark" style="width: 426px;">
-              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
-            </div>
-          </div>
-        </form> --}}
-        {{-- <button type="button" class="logout">Logout</button> --}}
       </div>
     </div>
   </nav>
   <section class="vh-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="row bg-light shadow rounded p-4" style="max-width: 800px; align-items: center;">
+    <div class="row d-flex justify-content-center align-items-center h-100" >
+
+      <div class="row bg-light shadow rounded p-4" style="max-width: 800px; align-items: center;"style="background-color:#eee ">
         <div class="col-md-4 col-lg-4 col-xl-4">
           <img src="{{ asset('assets/image/yfasmaloginfinal.png') }}" class="d-block w-100" alt="Image">
         </div>
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-          <form method="POST" action="{{ route('login.submit') }}">
+            <h2>Login</h2><br/>
+                  <form method="POST" action="{{ route('login.submit') }}">
             @csrf
             <div class="form-outline mb-4">
               <label class="form-label" for="email">Email address</label>
@@ -144,13 +115,13 @@
               </span>
               @enderror
             </div>
-            <div class="d-flex justify-content-between align-items-center">
+            {{-- <div class="d-flex justify-content-between align-items-center">
               <div class="form-check mb-0">
                 <input class="form-check-input me-2" type="checkbox" value="" id="rememberMe" />
                 <label class="form-check-label" for="rememberMe">Remember me</label>
               </div>
               <a href="#" class="text-body">Forgot password?</a>
-            </div>
+            </div> --}}
             <div class="text-center text-lg-start mt-4 pt-2">
               <button type="submit" class="btn btn-primary">Login</button>
               <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="{{ route('registration.form') }}" class="link-danger">Register</a></p>

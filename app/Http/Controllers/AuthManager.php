@@ -72,11 +72,11 @@ class AuthManager extends Controller
 
             // Redirect based on user role
             if ($user->role === 'admin') {
-                return redirect()->route('admin.profile')->with('success', 'Login successful');
+                return redirect()->route('admin.profile')->with('success');
             }
 
             // Redirect to the default page for non-admin users
-            return redirect()->route('index')->with('success', 'Login successful');
+            return redirect()->route('index')->with('success');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput($request->only('email'));

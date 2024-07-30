@@ -1,4 +1,4 @@
-<div class="container-fluid p-0">
+<div class="container-fluid p-0 mt-4">
     <footer class="text-center text-lg-start text-white" style="background-color: #1c2331">
         <div>
             <a href="" class="text-white me-4"><i class="fab fa-facebook-f"></i></a>

@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\EsewaController;
+use App\Http\Controllers\UserDetailController;
+use App\Http\Controllers\AdminController;
 
 // Home Route
 Route::get('/', [UploadController::class, 'index'])->name('index');
@@ -40,26 +42,36 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 // Product Detail Route
 Route::post('/submit_form', [ProductDetailController::class, 'submitForm'])->name('submit_form');
+// routes/web.php
+Route::get('/admin-profile', [UserDetailController::class, 'adminProfile'])->name('admin.profile');
+
 
 // Public Routes
+// Category Routes
 Route::get('/cultural', function () {
     return view('cultural');
 })->name('cultural');
-Route::get('/women', function () {
-    return view('women');
-})->name('women');
-Route::get('/men', function () {
-    return view('men');
-})->name('men');
+
 Route::get('/western', function () {
     return view('western');
 })->name('western');
+
+Route::get('/cultural', [DesignerController::class, 'culturalProduct'])->name('cultural');
+Route::get('/western', [DesignerController::class, 'westernProduct'])->name('western');
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [DesignerController::class, 'profile'])->name('profile');
     Route::post('/profile', [DesignerController::class, 'updateProfile'])->name('profile.update');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::get('/edit-cart/{cart_id}', [CartController::class, 'editCart'])->name('edit_cart');
+    Route::post('/update-cart/{cart_id}', [CartController::class, 'updateCart'])->name('update_cart');
+    Route::get('/delete-cart/{cart_id}', [CartController::class, 'deleteCart'])->name('delete_cart');
+
+    Route::get('/payment-verify', [CartController::class, 'verifyPayment'])->name('payment.verify');
+
+
+
     Route::get('/designer', [DesignerController::class, 'showDesignerPage'])->name('designer');
 });
 
@@ -80,6 +92,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 });
-Route::get('/admin-profile', function () {
-    return view('adminprofile'); // Ensure this matches your view filename
-})->name('admin.profile');
+// Route::get('/admin-profile', function () {
+//     return view('admin.adminprofile'); // Ensure this matches your view filename
+// })->name('admin.profile');
+
+
+Route::get('/admin-profile', [UserDetailController::class, 'adminProfile'])->name('admin.profile');
+Route::get('/admin-profile/edit/{id}', [UserDetailController::class, 'edit'])->name('admin.edit');
+Route::post('/admin-profile/update/{id}', [UserDetailController::class, 'update'])->name('admin.update');
+Route::delete('/admin-profile/delete/{id}', [UserDetailController::class, 'destroy'])->name('admin.delete');
+
+// Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admincontroller', [AdminController::class, 'adminController'])->name('admin.admincontroller');
+Route::get('/admincontroller', [AdminController::class, 'adminController'])->name('admin.admincontroller');
+Route::get('/admincontroller/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+Route::put('/admincontroller/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('/admincontroller/delete/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
