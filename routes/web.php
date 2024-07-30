@@ -10,7 +10,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\EsewaController;
 use App\Http\Controllers\UserDetailController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\OrderController;
 // Home Route
 Route::get('/', [UploadController::class, 'index'])->name('index');
 
@@ -109,3 +109,6 @@ Route::get('/admincontroller', [AdminController::class, 'adminController'])->nam
 Route::get('/admincontroller/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
 Route::put('/admincontroller/update/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admincontroller/delete/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+
+Route::get('/payment-verify', [OrderController::class, 'verifyPayment']);
+Route::get('/payment-fail', [OrderController::class, 'paymentFail']);

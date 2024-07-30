@@ -104,7 +104,7 @@
                     <input type="hidden" name="pid" value="{{ \Str::uuid() }}" required>
                     <input type="hidden" name="su" value="{{ url('payment-verify?oid=' . json_encode($cart_ids)) }}" required>
                     <input type="hidden" name="fu" value="{{ url('payment-fail') }}" required>
-                    <button type="submit" class="btn btn-success small ">Checkout via E-sewa</button>
+                    <button type="submit" class="btn btn-success small">Checkout via E-sewa</button>
                 </form>
             </div>
         </div>

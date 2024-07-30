@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Jobs\UserJob;
 use App\Mail\Invoice;
-use App\Models\Admin\Cart;
-use App\Models\Admin\Order;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Upload; // Ensure this is correct
 use Illuminate\Http\Request;
-use App\Models\Admin\Variation;
-use App\Models\Admin\OrderDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,53 +21,49 @@ class EsewaController extends Controller
         $total_price = $request->amt;
         $oid = $request->oid;
         $refId = $request->refId;
-        // dd($status);
 
-        if($status == 'su'){
-            //payement success
+        if ($status == 'su') {
+            // Payment success
             $userID = session()->get('userData.id');
-            $cartItems = Cart::where('user_id',$userID)->get()->toArray();
+            $cartItems = Cart::where('user_id', $userID)->get();
 
-            $sum = array_reduce($cartItems, function($i, $arr)
-            {
-                return $i += $arr['sub_total'];
-            });
+            $sum = $cartItems->sum('sub_total');
 
-            $verifyTransaction = SELF::verifyTransaction($request,$sum);
-            if(strpos($verifyTransaction,'Success')){
-                //verified..(process further)
-                $allSufficientQuantity = SELF::checkSufficientQuantity($cartItems);
-                if($allSufficientQuantity){
+            $verifyTransaction = $this->verifyTransaction($request, $sum);
+
+            if (strpos($verifyTransaction, 'Success') !== false) {
+                // Verified (process further)
+                $allSufficientQuantity = $this->checkSufficientQuantity($cartItems);
+                if ($allSufficientQuantity) {
                     $orderData = Order::create([
                         'user_id' => $userID,
-                        'date' => date('Y-m-d'),
                         'total_amount' => $sum,
                         'status' => 'Success'
                     ]);
-                    foreach($cartItems as $cart){
-                        $orderItemData = OrderDetail::create([
-                            'variation_id' => $cart['variation_id'],
+
+                    foreach ($cartItems as $cart) {
+                        OrderDetail::create([
                             'order_id' => $orderData->id,
-                            'quantity' => $cart['quantity'],
-                            'sub_amount' => $cart['sub_total'],
+                            'product_id' => $cart->product_id, // Ensure this matches your actual data structure
+                            'quantity' => $cart->quantity,
+                            'price' => $cart->sub_total,
                         ]);
 
-                        $deleteCart = Cart::destroy($cart['id']);
+                        Cart::destroy($cart->id);
                     }
-                    $sendMail = SELF::sendMail($orderData->id);
-                    return redirect('/user/order')->with('success','Successfully Added Order With Payment');
-                }else{
-                    return redirect('/user/order')->with('success','Payment Successfull');
+
+                    $this->sendMail($orderData->id);
+                    return redirect('/user/order')->with('success', 'Successfully Added Order With Payment');
+                } else {
+                    return redirect('/user/order')->with('success', 'Payment Successful but some items were not available.');
                 }
-            }else{
-                //not verified
-                return redirect('/user/cart')->with('error','Payment Not Verified');
+            } else {
+                // Not verified
+                return redirect('/user/cart')->with('error', 'Payment Not Verified');
             }
-
-
-        }else{
-            //payement failed
-            return redirect('/user/cart')->with('error','Payment failed');
+        } else {
+            // Payment failed
+            return redirect('/user/cart')->with('error', 'Payment failed');
         }
     }
 
@@ -75,19 +71,21 @@ class EsewaController extends Controller
     {
         DB::beginTransaction();
         try {
-            foreach($cartItems as $cart)
-            {
-                $sufficientQuatity = Variation::where('id',$cart['variation_id'])->where('quantity', '>=',$cart['quantity'])->exists();
-                if($sufficientQuatity){
-                    Variation::where('id',$cart['variation_id'])
-                    ->update([
-                        'quantity' => DB::raw('quantity - '.$cart['quantity']),
-                        'purchased_quantity' => DB::raw('purchased_quantity + '.$cart['quantity'])
-                    ]);
-                }else{
-                    //Insufficient quantity
-                    // DB::rollBack();
-                    // return false;
+            foreach ($cartItems as $cart) {
+                $sufficientQuantity = Upload::where('id', $cart->product_id)
+                    ->where('quantity', '>=', $cart->quantity)
+                    ->exists();
+
+                if ($sufficientQuantity) {
+                    Upload::where('id', $cart->product_id)
+                        ->update([
+                            'quantity' => DB::raw('quantity - ' . $cart->quantity),
+                            'purchased_quantity' => DB::raw('purchased_quantity + ' . $cart->quantity)
+                        ]);
+                } else {
+                    // Insufficient quantity
+                    DB::rollBack();
+                    return false;
                 }
             }
             DB::commit();
@@ -101,16 +99,16 @@ class EsewaController extends Controller
     public function verifyTransaction($data, $sum)
     {
         $url = "https://uat.esewa.com.np/epay/transrec";
-        $data =[
-            'amt'=> $sum,
-            'rid'=> $data->refId,
-            'pid'=> $data->oid,
-            'scd'=> 'EPAYTEST'
+        $params = [
+            'amt' => $sum,
+            'rid' => $data->refId,
+            'pid' => $data->oid,
+            'scd' => 'EPAYTEST'
         ];
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
         curl_close($curl);
@@ -119,11 +117,8 @@ class EsewaController extends Controller
 
     public function sendMail($order_id)
     {
-        $orderData = Order::with('order_detail.variation.shoe:id,name,price','user:id,name,email')->where('id',$order_id)->get()->first();
+        $orderData = Order::with('orderDetails.product', 'user')->find($order_id);
         dispatch(new UserJob($orderData));
         // Mail::to($orderData->user->email)->send(new Invoice($orderData));
-        // dispatch(function () {
-        //     Mail::to($orderData->user->email)->send(new Invoice($orderData));
-        // })->afterResponse();
     }
 }
